@@ -13,10 +13,12 @@ import javax.annotation.processing.Generated;
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Generated("101")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bookId;
     private String title;
     private String isbn;
     private int publishedYear;
+    @ManyToOne
+    @JoinColumn(name = "authorId")
+    private Author author;
 }
