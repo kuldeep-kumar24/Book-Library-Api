@@ -40,7 +40,7 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.FOUND).body(member);
     }
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<MemberResponseDTO> updateMember(@PathVariable Long id, @RequestBody MemberRequestDTO memberRequestDTO){
         MemberResponseDTO memberResponseDTO=service.updateMember(id,memberRequestDTO);
         return ResponseEntity.status(HttpStatus.OK).body(memberResponseDTO);
