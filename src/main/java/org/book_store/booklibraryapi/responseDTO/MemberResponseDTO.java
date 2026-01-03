@@ -1,4 +1,4 @@
-package org.book_store.booklibraryapi.requestDTO;
+package org.book_store.booklibraryapi.responseDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,13 +9,12 @@ import java.util.Date;
 @Getter
 @Setter
 @AllArgsConstructor
-public class MemberRequestDTO {
+public class MemberResponseDTO {
 
-    private String firstName;
-    private String lastName;
+    private Long memberId;
+    private String name;
     private String email;
-    private Long phoneNumber;
     private String address;
+    private Long phoneNumber;
     private Date membershipDate;
-
 }

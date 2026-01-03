@@ -22,4 +22,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handlerBookAuthorNotFoundException(BookAuthorNotFoundException ex){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Massage: "+ex.getMessage()+"\nStates Code: "+HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(MemberNotFoundException.class)
+    public ResponseEntity<?> handlerMemberNotFoundException(MemberNotFoundException ex){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Massage: "+ex.getMessage()+"\nStates Code: "+HttpStatus.NOT_FOUND);
+    }
 }

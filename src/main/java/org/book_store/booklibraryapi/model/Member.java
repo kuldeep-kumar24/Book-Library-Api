@@ -18,6 +18,6 @@ public class Member {
     private String name;
     private String email;
     private String address;
-    private String phoneNumber;
+    private Long phoneNumber;
     private Date membershipDate;
 }
