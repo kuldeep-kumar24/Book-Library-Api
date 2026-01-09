@@ -27,4 +27,19 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handlerMemberNotFoundException(MemberNotFoundException ex){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Massage: "+ex.getMessage()+"\nStates Code: "+HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(BorrowRecordMemberNotFound.class)
+    public ResponseEntity<?> handlerBorrowRecordMemberNotFound(BorrowRecordMemberNotFound ex){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Massage: "+ex.getMessage()+"\nStates Code: "+HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(BorrowRecordBookNotFound.class)
+    public ResponseEntity<?> handlerBorrowRecordBookNotFound(BorrowRecordBookNotFound ex){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Massage: "+ex.getMessage()+"\nStates Code: "+HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(BorrowRecordNotFoundException.class)
+    public ResponseEntity<?> handlerBorrowRecordNotFound(BorrowRecordNotFoundException ex){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Massage: "+ex.getMessage()+"\nStates Code: "+HttpStatus.NOT_FOUND);
+    }
 }
