@@ -10,6 +10,7 @@ import org.book_store.booklibraryapi.repository.BookRepository;
 import org.book_store.booklibraryapi.repository.BorrowRecordRepository;
 import org.book_store.booklibraryapi.repository.MemberRepository;
 import org.book_store.booklibraryapi.requestDTO.BorrowRecordRequestDTO;
+import org.book_store.booklibraryapi.responseDTO.BookReturnResponseDTO;
 import org.book_store.booklibraryapi.responseDTO.BorrowRecordResponseDTO;
 import org.springframework.stereotype.Service;
 
@@ -86,5 +87,13 @@ public class BorrowRecordService implements BorrowRecordServiceInterface{
         if(!borrowRecordRepository.existsById(id))
             throw new BorrowRecordNotFoundException("Borrow record id "+id+" does not exist");
         borrowRecordRepository.deleteById(id);
+    }
+
+    @Override
+    public BookReturnResponseDTO returnBook(Long id) {
+        BorrowRecord record=borrowRecordRepository.findById(id).orElseThrow(() -> new BorrowRecordNotFoundException("Borrow record id "+id+" does not Found"));
+        record.setReturnDate(LocalDate.now());
+        BorrowRecord updatedRecord=borrowRecordRepository.save(record);
+        return new BookReturnResponseDTO(updatedRecord.getBorrowRecordId(),updatedRecord.getBook().getTitle(),updatedRecord.getMember().getName(),updatedRecord.getBorrowDate(),updatedRecord.getReturnDate());
     }
 }

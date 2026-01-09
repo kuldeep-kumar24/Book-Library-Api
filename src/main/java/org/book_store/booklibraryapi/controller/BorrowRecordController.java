@@ -1,6 +1,7 @@
 package org.book_store.booklibraryapi.controller;
 
 import org.book_store.booklibraryapi.requestDTO.BorrowRecordRequestDTO;
+import org.book_store.booklibraryapi.responseDTO.BookReturnResponseDTO;
 import org.book_store.booklibraryapi.responseDTO.BorrowRecordResponseDTO;
 import org.book_store.booklibraryapi.service.BorrowRecordServiceInterface;
 import org.springframework.http.HttpStatus;
@@ -58,5 +59,8 @@ public class BorrowRecordController {
    }
 
    @PatchMapping("/return/{id}")
-    public ResponseEntity<>
+    public ResponseEntity<BookReturnResponseDTO> bookReturn(@PathVariable Long id){
+       BookReturnResponseDTO bookReturn=service.returnBook(id);
+       return ResponseEntity.status(HttpStatus.OK).body(bookReturn);
+   }
 }

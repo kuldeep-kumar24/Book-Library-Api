@@ -1,6 +1,7 @@
 package org.book_store.booklibraryapi.service;
 
 import org.book_store.booklibraryapi.requestDTO.BorrowRecordRequestDTO;
+import org.book_store.booklibraryapi.responseDTO.BookReturnResponseDTO;
 import org.book_store.booklibraryapi.responseDTO.BorrowRecordResponseDTO;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface BorrowRecordServiceInterface {
     BorrowRecordResponseDTO editRecord(Long id, BorrowRecordRequestDTO borrowRecordRequestDTO);
 
     void deleteBorrowRecord(Long id);
+
+    BookReturnResponseDTO returnBook(Long id);
 }
