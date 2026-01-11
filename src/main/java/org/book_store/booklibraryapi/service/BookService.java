@@ -24,6 +24,10 @@ public class BookService implements BookServiceInterface{
         this.authorRepository=authorRepository;
     }
 
+    public BookResponseDTO mapToBookResponseDTO(Book book){
+        return new BookResponseDTO(book.getBookId(),book.getTitle(),book.getIsbn(),book.getPublishedYear(),book.getAuthor().getName());
+    }
+
     @Override
     public BookResponseDTO add(BookRequestDTO book) {
         Author author=authorRepository.findById(book.getAuthorID()).orElseThrow(()-> new BookAuthorNotFoundException("Author ID " + book.getAuthorID() + " does not exist"));
@@ -36,7 +40,7 @@ public class BookService implements BookServiceInterface{
 
         Book savedBook=repository.save(newBook);
 
-        return new BookResponseDTO(savedBook.getBookId(),savedBook.getTitle(),savedBook.getIsbn(),savedBook.getPublishedYear(),savedBook.getAuthor().getName());
+        return mapToBookResponseDTO(savedBook);
     }
 
     @Override
@@ -44,7 +48,7 @@ public class BookService implements BookServiceInterface{
         List<Book> books=repository.findAll();
         List<BookResponseDTO> bookResponseDTOS=new ArrayList<>();
         for(Book book:books){
-            bookResponseDTOS.add(new BookResponseDTO(book.getBookId(),book.getTitle(),book.getIsbn(),book.getPublishedYear(),book.getAuthor().getName()));
+            bookResponseDTOS.add(mapToBookResponseDTO(book));
         }
         return bookResponseDTOS;
     }
@@ -52,7 +56,7 @@ public class BookService implements BookServiceInterface{
     @Override
     public BookResponseDTO getBook(Long id) {
         Book book=repository.findById(id).orElseThrow(() -> new BookNotFoundException("Book "+id+" does not found"));
-        return new BookResponseDTO(book.getBookId(),book.getTitle(),book.getIsbn(),book.getPublishedYear(),book.getAuthor().getName());
+        return mapToBookResponseDTO(book);
     }
 
     @Override
@@ -71,7 +75,7 @@ public class BookService implements BookServiceInterface{
 
         Book updatedBook=repository.save(newBook);
 
-        return new BookResponseDTO(updatedBook.getBookId(),updatedBook.getTitle(),updatedBook.getIsbn(),updatedBook.getPublishedYear(),updatedBook.getAuthor().getName());
+        return mapToBookResponseDTO(updatedBook);
     }
 
     @Override
@@ -88,7 +92,7 @@ public class BookService implements BookServiceInterface{
 
         Book updatedBook=repository.save(newBook);
 
-        return new BookResponseDTO(updatedBook.getBookId(),updatedBook.getTitle(),updatedBook.getIsbn(),updatedBook.getPublishedYear(),updatedBook.getAuthor().getName());
+        return mapToBookResponseDTO(updatedBook);
     }
 
     @Override

@@ -18,6 +18,10 @@ public class MemberService implements MemberServiceInterface{
         this.repository = repository;
     }
 
+    private MemberResponseDTO mapToMemberResponseDTO(Member member){
+        return new MemberResponseDTO(member.getMemberId(),member.getName(), member.getEmail(), member.getAddress(), member.getPhoneNumber(), member.getMembershipDate());
+    }
+
     @Override
     public MemberResponseDTO add(MemberRequestDTO memberRequestDTO) {
         Member member = new Member();
@@ -28,7 +32,7 @@ public class MemberService implements MemberServiceInterface{
         member.setMembershipDate(memberRequestDTO.getMembershipDate());
 
         Member savedMember = repository.save(member);
-        return new MemberResponseDTO(savedMember.getMemberId(),savedMember.getName(), savedMember.getEmail(), savedMember.getAddress(), savedMember.getPhoneNumber(), savedMember.getMembershipDate());
+        return mapToMemberResponseDTO(savedMember);
     }
 
     @Override
@@ -36,7 +40,7 @@ public class MemberService implements MemberServiceInterface{
         List<Member> members=repository.findAll();
         List<MemberResponseDTO> memberResponseDTOS=new ArrayList<>();
         for(Member member:members){
-         memberResponseDTOS.add(new MemberResponseDTO(member.getMemberId(),member.getName(),member.getEmail(),member.getAddress(),member.getPhoneNumber(),member.getMembershipDate()));
+         memberResponseDTOS.add(mapToMemberResponseDTO(member));
         }
         return memberResponseDTOS;
     }
@@ -44,7 +48,7 @@ public class MemberService implements MemberServiceInterface{
     @Override
     public MemberResponseDTO getMember(Long id) {
         Member member=repository.findById(id).orElseThrow(() -> new MemberNotFoundException("Member Id "+id+" Not Found"));
-        return new MemberResponseDTO(member.getMemberId(), member.getName(), member.getEmail(), member.getAddress(), member.getPhoneNumber(), member.getMembershipDate());
+        return mapToMemberResponseDTO(member);
     }
 
     @Override
@@ -62,7 +66,7 @@ public class MemberService implements MemberServiceInterface{
 
         Member savedMember = repository.save(member);
 
-        return new MemberResponseDTO(savedMember.getMemberId(), savedMember.getName(), savedMember.getEmail(), savedMember.getAddress(), savedMember.getPhoneNumber(), savedMember.getMembershipDate());
+        return mapToMemberResponseDTO(savedMember);
     }
 
     @Override
@@ -85,7 +89,7 @@ public class MemberService implements MemberServiceInterface{
             member.setMembershipDate(memberRequestDTO.getMembershipDate());
         }
         Member updatedMember = repository.save(member);
-        return new MemberResponseDTO(updatedMember.getMemberId(),updatedMember.getName(),updatedMember.getEmail(),updatedMember.getAddress(),updatedMember.getPhoneNumber(),updatedMember.getMembershipDate());
+        return mapToMemberResponseDTO(updatedMember);
     }
 
     @Override

@@ -31,6 +31,14 @@ public class BorrowRecordService implements BorrowRecordServiceInterface{
         this.memberRepository=memberRepository;
     }
 
+    private BorrowRecordResponseDTO mapToBorrowRecordResponseDTO(BorrowRecord borrowRecord){
+        return new BorrowRecordResponseDTO(borrowRecord.getBorrowRecordId(),borrowRecord.getBook().getTitle(),borrowRecord.getMember().getName(),borrowRecord.getBorrowDate(),borrowRecord.getReturnDate()!=null);
+    }
+
+    private BookReturnResponseDTO mapToBookReturnResponseDTO(BorrowRecord borrowRecord){
+        return new BookReturnResponseDTO(borrowRecord.getBorrowRecordId(),borrowRecord.getBook().getTitle(),borrowRecord.getMember().getName(),borrowRecord.getBorrowDate(),borrowRecord.getReturnDate());
+    }
+    
     @Override
     public BorrowRecordResponseDTO add(BorrowRecordRequestDTO borrowRecordRequestDTO) {
         Member member=memberRepository.findById(borrowRecordRequestDTO.getMemberId()).orElseThrow(() -> new BorrowRecordMemberNotFound("Member id "+borrowRecordRequestDTO.getMemberId()+" does not exist"));
@@ -40,7 +48,7 @@ public class BorrowRecordService implements BorrowRecordServiceInterface{
         record.setMember(member);
         record.setBorrowDate(LocalDate.now());
         BorrowRecord savedRecord=borrowRecordRepository.save(record);
-        return new BorrowRecordResponseDTO(savedRecord.getBorrowRecordId(),savedRecord.getBook().getTitle(),savedRecord.getMember().getName(),savedRecord.getBorrowDate(),savedRecord.getReturnDate()!=null);
+        return mapToBorrowRecordResponseDTO(savedRecord);
     }
 
     @Override
@@ -48,7 +56,7 @@ public class BorrowRecordService implements BorrowRecordServiceInterface{
         List<BorrowRecord> borrowRecords=borrowRecordRepository.findAll();
         List<BorrowRecordResponseDTO> borrowRecordResponseDTOs=new ArrayList<>();
         for(BorrowRecord borrowRecord:borrowRecords){
-            borrowRecordResponseDTOs.add(new BorrowRecordResponseDTO(borrowRecord.getBorrowRecordId(),borrowRecord.getBook().getTitle(),borrowRecord.getMember().getName(),borrowRecord.getBorrowDate(),borrowRecord.getReturnDate()!=null));
+            borrowRecordResponseDTOs.add(mapToBorrowRecordResponseDTO(borrowRecord));
         }
         return borrowRecordResponseDTOs;
     }
@@ -56,7 +64,7 @@ public class BorrowRecordService implements BorrowRecordServiceInterface{
     @Override
     public BorrowRecordResponseDTO getRecord(Long id) {
         BorrowRecord record=borrowRecordRepository.findById(id).orElseThrow(() -> new BorrowRecordNotFoundException("Borrow record id "+id+" does not found"));
-        return new BorrowRecordResponseDTO(record.getBorrowRecordId(),record.getBook().getTitle(),record.getMember().getName(),record.getBorrowDate(),record.getReturnDate()!=null);
+        return mapToBorrowRecordResponseDTO(record);
     }
 
     @Override
@@ -68,7 +76,7 @@ public class BorrowRecordService implements BorrowRecordServiceInterface{
         record.setMember(member);
         record.setBorrowDate(LocalDate.now());
         BorrowRecord updatedRecord=borrowRecordRepository.save(record);
-        return new BorrowRecordResponseDTO(updatedRecord.getBorrowRecordId(),updatedRecord.getBook().getTitle(),updatedRecord.getMember().getName(),updatedRecord.getBorrowDate(),updatedRecord.getReturnDate()!=null);
+        return mapToBorrowRecordResponseDTO(updatedRecord);
     }
 
     @Override
@@ -79,7 +87,7 @@ public class BorrowRecordService implements BorrowRecordServiceInterface{
         if(borrowRecordRequestDTO.getBookId()!=null && !borrowRecordRequestDTO.getBookId().equals(record.getBook().getBookId()))
             record.setBook(bookRepository.findById(borrowRecordRequestDTO.getBookId()).orElseThrow(() -> new BorrowRecordBookNotFound("Book id "+borrowRecordRequestDTO.getBookId()+" does not exist")));
         BorrowRecord updatedRecord=borrowRecordRepository.save(record);
-        return new BorrowRecordResponseDTO(updatedRecord.getBorrowRecordId(),updatedRecord.getBook().getTitle(),updatedRecord.getMember().getName(),updatedRecord.getBorrowDate(),updatedRecord.getReturnDate()!=null);
+        return mapToBorrowRecordResponseDTO(updatedRecord);
     }
 
     @Override
@@ -94,6 +102,6 @@ public class BorrowRecordService implements BorrowRecordServiceInterface{
         BorrowRecord record=borrowRecordRepository.findById(id).orElseThrow(() -> new BorrowRecordNotFoundException("Borrow record id "+id+" does not Found"));
         record.setReturnDate(LocalDate.now());
         BorrowRecord updatedRecord=borrowRecordRepository.save(record);
-        return new BookReturnResponseDTO(updatedRecord.getBorrowRecordId(),updatedRecord.getBook().getTitle(),updatedRecord.getMember().getName(),updatedRecord.getBorrowDate(),updatedRecord.getReturnDate());
+        return mapToBookReturnResponseDTO(updatedRecord);
     }
 }

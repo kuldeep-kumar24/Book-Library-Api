@@ -28,7 +28,7 @@ public class BookController {
     @GetMapping
     public ResponseEntity<List<BookResponseDTO>> getAllBooks(){
         List<BookResponseDTO> books=service.getBooks();
-        if(books==null){
+        if(books.isEmpty()){
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(books);

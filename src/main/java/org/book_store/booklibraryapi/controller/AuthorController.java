@@ -22,13 +22,13 @@ public class AuthorController {
     @PostMapping
     public ResponseEntity<Author> addAuthor(@RequestBody Author author){
         Author saved=service.add(author);
-        return ResponseEntity.status(HttpStatus.CREATED).body(author);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
     @GetMapping
     public ResponseEntity<List<Author>> getAuthor(){
         List<Author> authors=service.getAuthorList();
-        if(authors==null)
+        if(authors.isEmpty())
             return ResponseEntity.noContent().build();
         return ResponseEntity.ok(authors);
     }
