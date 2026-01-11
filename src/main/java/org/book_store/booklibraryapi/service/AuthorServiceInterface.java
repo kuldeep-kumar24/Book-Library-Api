@@ -1,17 +1,21 @@
 package org.book_store.booklibraryapi.service;
 
 import org.book_store.booklibraryapi.model.Author;
+import org.book_store.booklibraryapi.requestDTO.AuthorRequestDTO;
+import org.book_store.booklibraryapi.responseDTO.AuthorResponseDTO;
 
 import java.util.List;
 
 public interface AuthorServiceInterface {
-    Author add(Author author);
+    AuthorResponseDTO add(AuthorRequestDTO author);
 
-    List<Author> getAuthorList();
+    List<AuthorResponseDTO> getAuthorList();
 
-    Author getById(Long id);
+    AuthorResponseDTO getById(Long id);
 
-    Author updateAuthor(Long id, Author author);
+    AuthorResponseDTO updateAuthor(Long id, AuthorRequestDTO author);
 
     void deleteAuthorById(Long id);
+
+    AuthorResponseDTO edit(Long id, AuthorRequestDTO author);
 }
