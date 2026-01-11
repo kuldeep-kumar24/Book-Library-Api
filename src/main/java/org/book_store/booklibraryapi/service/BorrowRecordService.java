@@ -74,7 +74,6 @@ public class BorrowRecordService implements BorrowRecordServiceInterface{
         Book book=bookRepository.findById(borrowRecordRequestDTO.getBookId()).orElseThrow(() -> new BorrowRecordBookNotFound("Book id "+borrowRecordRequestDTO.getBookId()+" does not exist"));
         record.setBook(book);
         record.setMember(member);
-        record.setBorrowDate(LocalDate.now());
         BorrowRecord updatedRecord=borrowRecordRepository.save(record);
         return mapToBorrowRecordResponseDTO(updatedRecord);
     }

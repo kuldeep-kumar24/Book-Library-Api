@@ -70,19 +70,19 @@ public class MemberService implements MemberServiceInterface{
     public MemberResponseDTO patchUpdateMember(Long id, MemberRequestDTO memberRequestDTO) {
         Member member=repository.findById(id).orElseThrow(() -> new MemberNotFoundException("Member Id "+id+" Not Found"));
 
-        if(!member.getName().equals(memberRequestDTO.getFirstName()+" "+memberRequestDTO.getLastName()) && memberRequestDTO.getFirstName()!=null && memberRequestDTO.getLastName()!=null){
+        if(memberRequestDTO.getFirstName()!=null && memberRequestDTO.getLastName()!=null && !member.getName().equals(memberRequestDTO.getFirstName()+" "+memberRequestDTO.getLastName())){
             member.setName(memberRequestDTO.getFirstName()+" "+memberRequestDTO.getLastName());
         }
-        if (!member.getEmail().equals(memberRequestDTO.getEmail()) && memberRequestDTO.getEmail() != null) {
+        if (memberRequestDTO.getEmail() != null && !member.getEmail().equals(memberRequestDTO.getEmail())) {
             member.setEmail(memberRequestDTO.getEmail());
         }
-        if(!member.getAddress().equals(memberRequestDTO.getAddress()) && memberRequestDTO.getAddress() != null) {
+        if(memberRequestDTO.getAddress() != null && !member.getAddress().equals(memberRequestDTO.getAddress())) {
             member.setAddress(memberRequestDTO.getAddress());
         }
-        if (!member.getPhoneNumber().equals(memberRequestDTO.getPhoneNumber()) && memberRequestDTO.getPhoneNumber() != null) {
+        if (memberRequestDTO.getPhoneNumber() != null && !member.getPhoneNumber().equals(memberRequestDTO.getPhoneNumber())) {
             member.setPhoneNumber(memberRequestDTO.getPhoneNumber());
         }
-        if (!member.getMembershipDate().equals(memberRequestDTO.getMembershipDate()) && memberRequestDTO.getMembershipDate() != null) {
+        if (memberRequestDTO.getMembershipDate() != null && !member.getMembershipDate().equals(memberRequestDTO.getMembershipDate())) {
             member.setMembershipDate(memberRequestDTO.getMembershipDate());
         }
         Member updatedMember = repository.save(member);

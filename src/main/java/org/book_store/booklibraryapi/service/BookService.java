@@ -78,13 +78,13 @@ public class BookService implements BookServiceInterface{
     @Override
     public BookResponseDTO updateById(Long id, BookRequestDTO book) {
         Book newBook=repository.findById(id).orElseThrow(() -> new BookNotFoundException("Book "+id+" does not found"));
-        if(!newBook.getAuthor().getAuthorId().equals(book.getAuthorID()) && book.getAuthorID()!=null)
+        if(book.getAuthorID()!=null && !newBook.getAuthor().getAuthorId().equals(book.getAuthorID()))
             newBook.setAuthor(authorRepository.findById(book.getAuthorID()).orElseThrow(() -> new BookAuthorNotFoundException("Author ID " + book.getAuthorID() + " does not exist")));
-        if(!newBook.getTitle().equals(book.getTitle()) && book.getTitle()!=null)
+        if(book.getTitle()!=null && !newBook.getTitle().equals(book.getTitle()))
             newBook.setTitle(book.getTitle());
-        if(!newBook.getIsbn().equals(book.getIsbn()) && book.getIsbn()!=null)
+        if(book.getIsbn()!=null && !newBook.getIsbn().equals(book.getIsbn()))
             newBook.setIsbn(book.getIsbn());
-        if(newBook.getPublishedYear()!=book.getPublishedYear() && book.getPublishedYear()!=0)
+        if(book.getPublishedYear()!=0 && newBook.getPublishedYear()!=book.getPublishedYear())
             newBook.setPublishedYear(book.getPublishedYear());
 
         Book updatedBook=repository.save(newBook);
