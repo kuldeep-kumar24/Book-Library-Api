@@ -42,8 +42,7 @@ public class AuthorService implements AuthorServiceInterface{
 
     @Override
     public void deleteAuthorById(Long id) {
-        if(!repository.existsById(id))
-            throw new AuthorNotFoundException("Author "+id+" not found");
-        repository.deleteById(id);
+        Author author=repository.findById(id).orElseThrow(()->new AuthorNotFoundException("Author "+id+" not found"));
+        repository.delete(author);
     }
 }

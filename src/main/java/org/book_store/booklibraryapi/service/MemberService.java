@@ -53,11 +53,8 @@ public class MemberService implements MemberServiceInterface{
 
     @Override
     public MemberResponseDTO updateMember(Long id, MemberRequestDTO memberRequestDTO) {
-        if(!repository.existsById(id))
-            throw new MemberNotFoundException("Member Id "+id+" Not Found");
+        Member member=repository.findById(id).orElseThrow(() -> new MemberNotFoundException("Member Id "+id+" Not Found"));
 
-        Member member=new Member();
-        member.setMemberId(id);
         member.setName(memberRequestDTO.getFirstName()+" "+memberRequestDTO.getLastName());
         member.setEmail(memberRequestDTO.getEmail());
         member.setAddress(memberRequestDTO.getAddress());
@@ -94,8 +91,7 @@ public class MemberService implements MemberServiceInterface{
 
     @Override
     public void deleteMember(Long id) {
-        if(!repository.existsById(id))
-            throw new MemberNotFoundException("Member Id "+id+" Not Found");
-        repository.deleteById(id);
+        Member member=repository.findById(id).orElseThrow(() -> new MemberNotFoundException("Member Id "+id+" Not Found"));
+        repository.delete(member);
     }
 }

@@ -61,13 +61,10 @@ public class BookService implements BookServiceInterface{
 
     @Override
     public BookResponseDTO update(Long id, BookRequestDTO book) {
-        if(!repository.existsById(id))
-            throw new BookNotFoundException("Book "+id+" does not found");
+        Book newBook=repository.findById(id).orElseThrow(() -> new BookNotFoundException("Book "+id+" does not found"));
 
         Author author=authorRepository.findById(book.getAuthorID()).orElseThrow(() -> new BookAuthorNotFoundException("Author ID " + book.getAuthorID() + " does not exist"));
 
-        Book newBook=new Book();
-        newBook.setBookId(id);
         newBook.setTitle(book.getTitle());
         newBook.setIsbn(book.getIsbn());
         newBook.setPublishedYear(book.getPublishedYear());
@@ -97,9 +94,8 @@ public class BookService implements BookServiceInterface{
 
     @Override
     public void delete(Long id) {
-        if(!repository.existsById(id))
-            throw new BookNotFoundException("Book "+id+" does not found");
-        repository.deleteById(id);
+        Book book=repository.findById(id).orElseThrow(() -> new BookNotFoundException("Book "+id+" does not found"));
+        repository.delete(book);
     }
 
 

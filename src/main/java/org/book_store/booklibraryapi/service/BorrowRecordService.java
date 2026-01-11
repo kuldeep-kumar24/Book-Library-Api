@@ -92,9 +92,8 @@ public class BorrowRecordService implements BorrowRecordServiceInterface{
 
     @Override
     public void deleteBorrowRecord(Long id) {
-        if(!borrowRecordRepository.existsById(id))
-            throw new BorrowRecordNotFoundException("Borrow record id "+id+" does not exist");
-        borrowRecordRepository.deleteById(id);
+        BorrowRecord record=borrowRecordRepository.findById(id).orElseThrow(() -> new BorrowRecordNotFoundException("Borrow record id "+id+" does not Found"));
+        borrowRecordRepository.delete(record);
     }
 
     @Override
